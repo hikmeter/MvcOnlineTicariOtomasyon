@@ -1,0 +1,20 @@
+﻿@model MvcOnlineTicariOtomasyon.Models.Siniflar.Cariler
+@{
+    ViewBag.Title = "CariEkle";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<br />
+<h2>Yeni Cari Ekle</h2>
+<br />
+<form class="form-group" method="post">
+    <label>Ad</label>
+    @Html.TextBoxFor(x => x.CariAd, new { @class = "form-control" })
+    <label>Soyad</label>
+    @Html.TextBoxFor(x => x.CariSoyad, new { @class = "form-control" })
+    <label>Şehir</label>
+    @Html.TextBoxFor(x => x.CariSehir, new { @class = "form-control" })
+    <label>Mail Adresi</label>
+    @Html.TextBoxFor(x => x.CariMail, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-success">Cari Ekle</button>
+</form>

@@ -1,0 +1,63 @@
+﻿@using MvcOnlineTicariOtomasyon.Models.Siniflar
+@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<Kategori>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<h2>Kategori Listesi</h2>
+<br />
+@using (Html.BeginForm("Index", "Kategori", FormMethod.Get))
+{
+    @Html.TextBox("p", null, new { @class = "form-control-me-2" })
+    <button class="btn btn-outline-success" type="submit">Ara</button>
+}
+<br />
+<table class="table table-bordered">
+    <tr>
+        <th>Kategori Adı</th>
+        <th>Güncelle</th>
+        <th>Sil</th>
+    </tr>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.KategoriAd</td>
+            <td><a href="/Kategori/KategoriGetir/@x.KategoriID" class="btn btn-warning">Güncelle</a></td>
+            <td><a href="/Kategori/KategoriSil/@x.KategoriID" class="btn btn-danger" id="btn2">Sil</a></td>
+        </tr>
+    }
+</table>
+<br />
+@Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Index", new { sayfa }), new PagedListRenderOptions
+{
+    LiElementClasses = new List<string>
+    { "page-link"}
+})
+<a href="/Kategori/KategoriEkle/" class="btn btn-primary">Kategori Ekle</a>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $(document).on('click', '.btn-danger', function (event) {
+        event.preventDefault();
+        swal({
+            title: "Emin misiniz?",
+            text: "Kategori silindikten sonra erişemeyeceksiniz!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                swal("Kategori silindi!", {
+                    icon: "success",
+                }).then(() => {
+                    window.location.href = $(this).attr('href');
+                });
+            } else {
+                swal("İşlem iptal edildi!");
+            }
+        });
+    });
+</script>

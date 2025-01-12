@@ -1,0 +1,42 @@
+﻿@model MvcOnlineTicariOtomasyon.Models.Siniflar.SatisHareket
+@{
+    ViewBag.Title = "SatisYap";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<br />
+<h2>Yeni Satış Yap</h2>
+<br />
+<form class="form-group" method="post">
+    <label>Personel</label>
+    @Html.DropDownListFor(x => x.Personelid, (List<SelectListItem>)ViewBag.dgr1, new { @class = "form-control" })
+    <br />
+    <label>Cari</label>
+    @Html.TextBoxFor(x => x.Cariid, new { @class = "form-control" })
+    <br />
+    @*<label>Ürün ID</label>
+    <input type="text" name="Urunid" class="form-control" value="@ViewBag.dgr2" readonly>*@
+    <input type="hidden" name="Urunid" value="@ViewBag.dgr2" />
+    @*<br />*@
+    <label>Adet</label>
+    <input type="number" name="Adet" class="form-control" id="txt1" onchange="Hesapla();" min="0" />
+    <br />
+    <label>Fiyat</label>
+    <input type="text" class="form-control" name="Fiyat" id="txt2" onkeyup="Hesapla();" value="@ViewBag.dgr3">
+    <br />
+    <label>Toplam Tutar</label>
+    <input type="text" name="ToplamTutar" class="form-control" id="txt3" readonly>
+    <br />
+    <button class="btn btn-success">Yeni Satış Yap</button>
+</form>
+
+<script>
+    function Hesapla() {
+        var sayi1 = document.getElementById('txt1').value;
+        var sayi2 = document.getElementById('txt2').value;
+        var sonuc = parseInt(sayi1) * parseInt(sayi2);
+        if (!isNaN(sonuc))
+        {
+            document.getElementById('txt3').value = sonuc;
+        }
+    }
+</script>

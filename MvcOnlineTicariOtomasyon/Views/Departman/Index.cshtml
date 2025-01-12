@@ -1,0 +1,58 @@
+﻿@using MvcOnlineTicariOtomasyon.Models.Siniflar
+@model List<Departman>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<h2>Departman Listesi</h2>
+<br />
+@using (Html.BeginForm("Index", "Departman", FormMethod.Get))
+{
+    @Html.TextBox("p", null, new { @class = "form-method-me-2" })
+    <button class="btn btn-outline-success" type="submit">Ara</button>
+}
+<br />
+<table class="table table-bordered">
+    <tr>
+        <th>Departman Adı</th>
+        <th>Detaylar</th>
+        <th>Güncelle</th>
+        <th>Sil</th>
+    </tr>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.DepartmanAd</td>
+            <td><a href="/Departman/DepartmanDetay/@x.Departmanid" class="btn btn-success">Detaylar</a></td>
+            <td><a href="/Departman/DepartmanGetir/@x.Departmanid" class="btn btn-warning">Güncelle</a></td>
+            <td><a href="/Departman/DepartmanSil/@x.Departmanid" class="btn btn-danger" id="btn2">Sil</a></td>
+        </tr>
+    }
+</table>
+<br />
+<a href="/Departman/DepartmanEkle/" class="btn btn-primary">Departman Ekle</a>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $(document).on('click', '.btn-danger', function (event) {
+        event.preventDefault();
+        swal({
+            title: "Emin misiniz?",
+            text: "Departman silindikten sonra erişemeyeceksiniz!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                swal("Departman silindi!", {
+                    icon: "success",
+                }).then(() => {
+                    window.location.href = $(this).attr('href');
+                });
+            } else {
+                swal("İşlem iptal edildi!");
+            }
+        });
+    });
+</script>

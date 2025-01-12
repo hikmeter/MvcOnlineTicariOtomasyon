@@ -1,0 +1,72 @@
+﻿@using MvcOnlineTicariOtomasyon.Models.Siniflar
+@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<Urun>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<h2>Ürün Listesi</h2>
+<br />
+@using (Html.BeginForm("Index", "Urun", FormMethod.Get))
+{
+    @Html.TextBox("p", null, new { @class = "form-control-me-2" })
+    <button class="btn btn-outline-success" type="submit">Ara</button>
+}
+<br />
+<table class="table table-bordered">
+    <tr>
+        <th>Ürün</th>
+        <th>Marka</th>
+        <th>Stok</th>
+        <th>Alış Fiyatı</th>
+        <th>Satış Fiyatı</th>
+        <th>Kategori</th>
+        <th>Satış Yap</th>
+        <th>Güncelle</th>
+        <th>Sil</th>
+    </tr>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.UrunAd</td>
+            <td>@x.Marka</td>
+            <td>@x.Stok</td>
+            <td>@x.AlisFiyat₺</td>
+            <td>@x.SatisFiyat₺</td>
+            <td>@x.Kategori.KategoriAd</td>
+            <td><a href="/Urun/SatisYap/@x.Urunid" class="btn btn-success">Satış Yap</a></td>
+            <td><a href="/Urun/UrunGetir/@x.Urunid" class="btn btn-warning">Güncelle</a></td>
+            <td><a href="/Urun/UrunSil/@x.Urunid" class="btn btn-danger" id="btn2">Sil</a></td>
+        </tr>
+    }
+</table>
+<br />
+@Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Index", new { sayfa }))
+<a href="/Urun/UrunEkle" class="btn btn-primary">Ürün Ekle</a>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $(document).on('click', '.btn-danger', function (event) {
+        event.preventDefault();
+        swal({
+            title: "Emin misiniz?",
+            text: "Ürün silindikten sonra erişemeyeceksiniz!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                swal("Ürün silindi!", {
+                    icon: "success",
+                }).then(() => {
+                    window.location.href = $(this).attr('href');
+                });
+            } else {
+                swal("İşlem iptal edildi!");
+            }
+        });
+    });
+</script>
+

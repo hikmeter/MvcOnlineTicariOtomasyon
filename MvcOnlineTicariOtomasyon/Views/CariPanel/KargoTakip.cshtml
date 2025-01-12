@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "KargoTakip";
+    Layout = "~/Views/Shared/_CariLayout.cshtml";
+}
+<br />
+<h2>Kargolar</h2>
+@using (Html.BeginForm("KargoTakip", "CariPanel", FormMethod.Get))
+{
+    @Html.TextBox("p", null, new { @class = "form-control-me-2" })
+    <button class="btn btn-outline-success" type="submit">Ara</button>
+}
+<br />
+<table class="table table-bordered">
+    <tr>
+        <th>Kargo Takip Kodu</th>
+        <th>Personel</th>
+        <th>Alıcı</th>
+        <th>Tarih</th>
+        <th>Detaylar</th>
+    </tr>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.TakipKodu</td>
+            <td>@x.Personel</td>
+            <td>@x.Alici</td>
+            <td>@x.Tarih</td>
+            <td><a href="/CariPanel/KargoDetay/@x.TakipKodu" class="btn btn-success">Detaylar</a></td>
+        </tr>
+    }
+</table>
+<br />
